@@ -10,7 +10,7 @@ import {
   TableRow,
   TableSortLabel,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StickyCell from "./StickyCell";
 
 export default function useStickyTable(
@@ -26,11 +26,35 @@ export default function useStickyTable(
     { label: "All", value: records.length },
   ];
 
-  const [page, , setPage] = useState(0);
+  const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(0);
   const [order, setOrder] = useState("");
   const [orderBy, setOrderBy] = useState("");
   const [selectAll, setSelectAll] = useState(false);
+
+  useEffect(() => {
+    if (records.length === 0) {
+      setSelectAll(false);
+    }
+  }, [records]);
+
+  useEffect(() => {
+    const pageWithLoading =
+      page > 0 && records.length <= rowsPerPage ? 0 : page;
+    setPage(pageWithLoading);
+  }, [page, records.length, rowsPerPage]);
+
+  const handleSort = (cellId) => (e) => {
+    const asc = orderBy === cellId && order === "asc";
+
+    setOrder(asc ? "desc" : "asc");
+    setOrderBy(cellId);
+
+    stableSort(records, getComparator(order, orderBy)).splice(
+      page * rowsPerPage,
+      (page + 1) * rowsPerPage
+    );
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -74,53 +98,49 @@ export default function useStickyTable(
     return 0;
   }
 
+  const recordsAfterPagingAndSorting = () => {
+    return stableSort(records, getComparator(order, orderBy)).splice(
+      page * rowsPerPage,
+      (page + 1) * rowsPerPage
+    );
+  };
+
   const TblStickyHeader = () => {
-    const handleSort = (cellId) => (e) => {
-      const asc = orderBy === cellId && order === "asc";
-
-      setOrder(asc ? "desc" : "asc");
-      setOrderBy(cellId);
-
-      stableSort(records, getComparator(order, orderBy)).splice(
-        page * rowsPerPage,
-        (page + 1) * rowsPerPage
-      );
-    };
-
     return (
-      <TableHead>
-        <TableRow>
-          <StickyCell>
-            <TableCell style={{ borderBottom: "none" }}>
-              <Checkbox
-                color="primary"
-                checked={selectAll}
-                onChange={handleSelectAll}
-              />
-            </TableCell>
-            {headers
-              .filter((header) => header.sticky === true)
-              .map((header, index) => (
-                <TableCell
-                  key={header.id}
-                  sortDirection={orderBy === header.id ? order : false}
-                  style={{ borderBottom: "none" }}
-                >
-                  {header.disabledSorting ? (
-                    header.label
-                  ) : (
-                    <TableSortLabel
-                      active={orderBy === header.id}
-                      direction={orderBy === header.id ? order : "asc"}
-                      onClick={handleSort(header.id)}
-                    >
-                      {header.label}
-                    </TableSortLabel>
-                  )}
-                </TableCell>
-              ))}
-          </StickyCell>
-          {headers
+      <>
+        <TableHead>
+          <TableRow>
+            <StickyCell>
+              <TableCell>
+                <Checkbox
+                  color="primary"
+                  // checked={selectAll}
+                  // onChange={handleSelectAll}
+                />
+              </TableCell>
+              {headers
+                .filter((header) => header.sticky === true)
+                .map((header, index) => (
+                  <TableCell
+                    key={header.id}
+                    // sortDirection={orderBy === header.id ? order : false}
+                    // style={{ borderBottom: "none" }}
+                  >
+                    {/* {header.disabledSorting ? (
+                      header.label
+                    ) : (
+                      <TableSortLabel
+                        active={index === 0 ? true : orderBy === header.id}
+                        // direction={orderBy === header.id ? order : "asc"}
+                        // onClick={handleSort(header.id)}
+                      >
+                        {header.label}
+                      </TableSortLabel>
+                    )} */}
+                  </TableCell>
+                ))}
+            </StickyCell>
+            {/* {headers
             .filter((header) => header.sticky === false)
             .map((header, index) => (
               <TableCell
@@ -131,17 +151,18 @@ export default function useStickyTable(
                   header.label
                 ) : (
                   <TableSortLabel
-                    active={orderBy === header.id}
+                    active={index === 0 ? true : orderBy === header.id}
                     direction={orderBy === header.id ? order : "asc"}
-                    onClick={handleSort(header.id)}
+                    // onClick={handleSort(header.id)}
                   >
                     {header.label}
                   </TableSortLabel>
                 )}
               </TableCell>
-            ))}
-        </TableRow>
-      </TableHead>
+            ))} */}
+          </TableRow>
+        </TableHead>
+      </>
     );
   };
 
@@ -155,7 +176,7 @@ export default function useStickyTable(
       rowsPerPageOptions={pages}
       rowsPerPage={rowsPerPage}
       labelDisplayedRows={({ from, to, count }) =>
-        `Viewing ${from > to ? to : from} -${to} of ${count} | Showing ${
+        `Viewing ${from > to ? to : from} - ${to} of ${count} | Showing ${
           rowsPerPage > count ? count : rowsPerPage
         } Results`
       }
@@ -172,13 +193,6 @@ export default function useStickyTable(
       </TableContainer>
     </Paper>
   );
-
-  const recordsAfterPagingAndSorting = () => {
-    return stableSort(records, getComparator(order, orderBy)).splice(
-      page * rowsPerPage,
-      (page + 1) * rowsPerPage
-    );
-  };
 
   return {
     Tbl,

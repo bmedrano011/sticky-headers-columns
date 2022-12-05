@@ -3,7 +3,7 @@ import { userData } from "./user_mock_data";
 
 export default function useFetchData(url) {
   const [isLoading, setIsLoading] = useState(false);
-  const [apiData, setApiData] = useState(null);
+  const [apiData, setApiData] = useState([]);
   const [error, setServerError] = useState(null);
 
   useEffect(() => {

@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Copyright from "../src/Copyright";
-import useStickyTable from "../src/components/useTable";
-import { userData } from "../src/components/user_mock_data";
-import { TableCell } from "@mui/material";
+import StickyTable from "../src/components/Table/index.js";
+import useFetchData from "../src/components/useFetchData";
 
 const tableHeaders = [
   { id: "id", label: "ID", sticky: true, disableSorting: false },
   { id: "email", label: "Email", sticky: true, disableSorting: false },
   { id: "name", label: "Name", sticky: true, disableSorting: false },
-  { id: "country", label: "Country", sticky: true, disableSorting: false },
+  { id: "country", label: "Country", sticky: false, disableSorting: false },
   {
     id: "ip_address",
     label: "IP Address",
@@ -25,28 +24,24 @@ const tableHeaders = [
 ];
 
 export default function Index() {
-  const onSelectAll = () => {};
-
-  const { Tbl, TblPagination, recordsAfterPagingAndSorting } = useStickyTable(
-    userData,
-    tableHeaders,
-    12,
-    onSelectAll
-  );
+  const { isLoading, apiData, error } = useFetchData("");
 
   return (
-    <Container maxWidth="xl">
-      <Box sx={{ my: 4 }}>
-        <Tbl>
-          {recordsAfterPagingAndSorting().map((record, index) => (
-            <TableRow key={record.id}>
-              <TableCell>{record.label}</TableCell>
-            </TableRow>
-          ))}
-        </Tbl>
-        <TblPagination />
-        <Copyright />
-      </Box>
-    </Container>
+    <>
+      {isLoading && <span>Loading.....</span>}
+      {!isLoading && error ? (
+        <span>Error in fetching data ...</span>
+      ) : (
+        <Container maxWidth="xl">
+          <Box sx={{ my: 4 }}>
+            <StickyTable
+              data={apiData}
+              tableHeaders={tableHeaders}
+            ></StickyTable>
+            <Copyright />
+          </Box>
+        </Container>
+      )}
+    </>
   );
 }

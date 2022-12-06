@@ -6,21 +6,21 @@ import StickyTable from "../src/components/Table/index.js";
 import useFetchData from "../src/components/useFetchData";
 
 const tableHeaders = [
-  { id: "id", label: "ID", sticky: true, disableSorting: false },
-  { id: "email", label: "Email", sticky: true, disableSorting: false },
-  { id: "name", label: "Name", sticky: true, disableSorting: false },
-  { id: "country", label: "Country", sticky: false, disableSorting: false },
+  { id: "id", label: "ID", sticky: true, disabledSorting: false },
+  { id: "email", label: "Email", sticky: true, disabledSorting: false },
+  { id: "name", label: "Name", sticky: true, disabledSorting: false },
+  { id: "country", label: "Country", sticky: false, disabledSorting: false },
   {
     id: "ip_address",
     label: "IP Address",
     sticky: false,
-    disableSorting: true,
+    disabledSorting: true,
   },
-  { id: "split", label: "Split Status", sticky: false, disableSorting: true },
-  { id: "currency", label: "Currency", sticky: false, disableSorting: false },
-  { id: "ein", label: "EIN", sticky: false, disableSorting: true },
-  { id: "md5", label: "MD5 Hash", sticky: false, disableSorting: false },
-  { id: "notes", label: "Notes", sticky: false, disableSorting: true },
+  { id: "split", label: "Split Status", sticky: false, disabledSorting: true },
+  { id: "currency", label: "Currency", sticky: false, disabledSorting: false },
+  { id: "ein", label: "EIN", sticky: false, disabledSorting: true },
+  { id: "md5", label: "MD5 Hash", sticky: false, disabledSorting: false },
+  { id: "notes", label: "Notes", sticky: false, disabledSorting: true },
 ];
 
 export default function Index() {
@@ -32,15 +32,14 @@ export default function Index() {
       {!isLoading && error ? (
         <span>Error in fetching data ...</span>
       ) : (
-        <Container maxWidth="xl">
-          <Box sx={{ my: 4 }}>
-            <StickyTable
-              data={apiData}
-              tableHeaders={tableHeaders}
-            ></StickyTable>
-            <Copyright />
-          </Box>
-        </Container>
+        <>
+          <Container maxWidth="xl">
+            <Box sx={{ my: 4 }}>
+              <StickyTable data={apiData} tableHeaders={tableHeaders} />
+              <Copyright />
+            </Box>
+          </Container>
+        </>
       )}
     </>
   );

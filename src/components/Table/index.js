@@ -121,7 +121,14 @@ function StickyTable({ data, tableHeaders }) {
                   key={row.name}
                   selected={isItemSelected}
                 >
-                  <StickyCell zIndex={1001}>
+                  <StickyCell
+                    zIndex={1001}
+                    styles={{
+                      borderRight: "solid",
+                      borderRightWidth: "thin",
+                      borderRightColor: "#d4d4d4",
+                    }}
+                  >
                     <TableCell padding="checkbox">
                       <Checkbox color="primary" checked={isItemSelected} />
                     </TableCell>

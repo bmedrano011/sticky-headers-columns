@@ -3,6 +3,7 @@ import React from "react";
 
 function StickyCell(props) {
   const {
+    styles,
     backgroundColor = "#ffffff",
     color = "#000000",
     left = 0,
@@ -13,6 +14,7 @@ function StickyCell(props) {
   return (
     <TableCell
       style={{
+        ...styles,
         backgroundColor: backgroundColor,
         color: color,
         left: left,

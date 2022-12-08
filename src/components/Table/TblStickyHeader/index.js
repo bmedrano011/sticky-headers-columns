@@ -52,13 +52,17 @@ export default function TblStickyHeader(props) {
                   sortDirection={orderBy === header.id ? order : false}
                   sx={header.id !== "id" ? { width: "250px" } : { width: "0" }}
                 >
-                  <TableSortLabel
-                    active={orderBy === header.id}
-                    direction={orderBy === header.id ? order : "asc"}
-                    onClick={createSortHandler(header.id)}
-                  >
-                    {header.label}
-                  </TableSortLabel>
+                  {header.disabledSorting ? (
+                    header.label
+                  ) : (
+                    <TableSortLabel
+                      active={orderBy === header.id}
+                      direction={orderBy === header.id ? order : "asc"}
+                      onClick={createSortHandler(header.id)}
+                    >
+                      {header.label}
+                    </TableSortLabel>
+                  )}
                 </TableCell>
               ))}
           </StickyCell>
@@ -69,13 +73,17 @@ export default function TblStickyHeader(props) {
                 key={header.id}
                 sortDirection={orderBy === header.id ? order : false}
               >
-                <TableSortLabel
-                  active={orderBy === header.id}
-                  direction={orderBy === header.id ? order : "asc"}
-                  onClick={createSortHandler(header.id)}
-                >
-                  {header.label}
-                </TableSortLabel>
+                {header.disabledSorting ? (
+                  header.label
+                ) : (
+                  <TableSortLabel
+                    active={orderBy === header.id}
+                    direction={orderBy === header.id ? order : "asc"}
+                    onClick={createSortHandler(header.id)}
+                  >
+                    {header.label}
+                  </TableSortLabel>
+                )}
               </TableCell>
             ))}
         </TableRow>

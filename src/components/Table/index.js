@@ -13,7 +13,7 @@ import TblStickyHeader from "./TblStickyHeader";
 
 function StickyTable({ data, tableHeaders }) {
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("calories");
+  const [orderBy, setOrderBy] = useState("");
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);

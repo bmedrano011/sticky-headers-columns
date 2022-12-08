@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Copyright from "../src/Copyright";

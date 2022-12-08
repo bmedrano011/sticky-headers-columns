@@ -3,6 +3,7 @@ import React from "react";
 
 function StickyCell(props) {
   const {
+    children,
     styles,
     backgroundColor = "#ffffff",
     color = "#000000",
@@ -23,7 +24,7 @@ function StickyCell(props) {
         width: width,
       }}
     >
-      {props.children}
+      {children}
     </TableCell>
   );
 }

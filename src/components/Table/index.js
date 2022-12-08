@@ -132,13 +132,15 @@ function StickyTable({ data, tableHeaders }) {
                     <TableCell padding="checkbox">
                       <Checkbox color="primary" checked={isItemSelected} />
                     </TableCell>
-                    <TableCell>{row.id}</TableCell>
+                    <TableCell>
+                      <>{row.id}</>
+                    </TableCell>
                     <TableCell sx={{ width: "250px" }}>{row.email}</TableCell>
                     <TableCell sx={{ width: "200px" }}>{row.name}</TableCell>
                   </StickyCell>
                   <TableCell>{row.country}</TableCell>
                   <TableCell>{row.ip_address}</TableCell>
-                  <TableCell>{row.split}</TableCell>
+                  <TableCell>{row.split ? "True" : "False"}</TableCell>
                   <TableCell>{row.currency}</TableCell>
                   <TableCell>{row.ein}</TableCell>
                   <TableCell>{row.md5}</TableCell>

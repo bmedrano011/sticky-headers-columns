@@ -1,3 +1,8 @@
+const isProd = process.env.NODE_ENV === "production";
+
 module.exports = {
-  reactStrictMode: true,
+  assetPrefix: isProd ? "/sticky-headers-columns/" : "",
+  images: {
+    unoptimized: true,
+  },
 };
